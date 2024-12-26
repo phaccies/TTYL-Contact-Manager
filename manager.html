@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="js/code.js"></script>
+    <title>TTYL! || Contact Manager</title>
+    <link href="css/manager.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Popup container - can be anything you want */
+      .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* The actual popup */
+      .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+      }
+
+      /* Popup arrow */
+      .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+
+      /* Toggle this class - hide and show the popup */
+      .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+      }
+
+      /* Add animation (fade in the popup) */
+      @-webkit-keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* To initially hide new contact form. */
+      #contactForm {
+        display: none;
+      }
+
+      #form-container
+      {
+        display: none;
+      }
+
+      #SearchContactSection {
+        display: none; /* Initially visible */
+      }
+
+      #ContactTable {
+        display: block; /* Initially visible */
+      }
+
+      .hidden {
+        display: none;
+      }
+
+
+      #password-feedback {
+        list-style-type: none; /* Removes default list styling */
+        padding: 0; /* Removes default padding */
+        margin: 0; /* Removes default margin */
+      }
+
+      #password-feedback li {
+        margin-bottom: 5px; /* Adjust spacing as needed */
+        display: flex; /* Align icons and text horizontally */
+        align-items: center; /* Vertically center items */
+      }
+
+      #length-icon,
+      #letter-icon,
+      #number-icon,
+      #special-icon {
+        font-size: 16px; /* Adjust size as needed */
+        color: black; /* Set color to black */
+        margin-right: 10px; /* Space between icon and text */
+      }
+    </style>
+  </head>
+  <body onload="loadContacts()">
+    <h2 id="welcomeMessage">Welcome</h2>
+    </br>
+    </br>
+    <div class="search-wrapper">
+  <div class="search-container" id="Search">
+    <input
+      class="search-input"
+      type="search"
+      id="searchInput"
+      placeholder="Search"
+      aria-label="Search Elements"
+    />
+    <button
+      type="button"
+      id="ShowSearchForm"
+      class="search-button"
+      onclick="doSearchContact();"
+    >
+      <img src="images/Search.jpg" alt="Search" />
+    </button>
+
+          </button>
+      <button
+  type="button"
+  id="showTable"
+  class="show-table"
+  onclick="showTable()";
+>
+  <img src="images/showTable.jpg" alt="Show Table" />
+</button>
+  </div>
+  <div id="messageDisplay" class="message-display"></div>
+</div>
+
+<script>
+function showTable() {
+  console.log("Show Table button clicked"); // Log when button is clicked
+
+  // Getting the elements by ID
+  let table = document.getElementById("contactTable");
+  let tableContainer = document.getElementById("table-container");
+  let contactForm = document.getElementById("contactForm");
+  let formContainer = document.getElementById("form-container");
+
+  // Check if all elements exist
+  if (!table || !tableContainer || !contactForm || !formContainer) {
+    console.error("One or more elements not found");
+    document.getElementById("messageDisplay").innerText =
+      "Error: Elements not found!";
+    return;
+  }
+
+  // Hide the form and its container
+  contactForm.style.display = "none";
+  formContainer.style.display = "none";
+
+  // Show the table and its container
+  table.style.display = "table"; // Ensure table is shown
+  tableContainer.style.display = "block"; // Ensure container is visible
+
+  loadContacts();
+
+  console.log("Table shown");
+}
+
+
+</script>
+
+
+<div id="messageDisplay" style="display:none;"></div> <!-- Ensure this is present to show messages -->
+
+<div id="ContactButtons">
+  <button
+    type="button"
+    id="AddContactForm"
+    class="buttons"
+    onclick="showHideForms();"
+  >
+    <img src="images/addContact.jpg" alt="Add Contact" id="addContact" />
+  </button>
+</div>
+
+
+    <!-- Form for adding a new contact -->
+     <div id = "form-container">
+    <form id="contactForm">
+      <input type="text" id="firstName" placeholder="First Name" />
+    </br>
+  </br>
+      <input type="text" id="lastName" placeholder="Last Name" />
+    </br>
+  </br>
+      <input
+        type="text"
+        id="Phone"
+        placeholder="Phone Number"
+        oninput="formatPhoneNumber()"
+      />
+    </br>
+  </br>
+      <input type="text" id="Email" placeholder="Name@email.com" />
+    </br>
+  </br>
+      <button
+        type="button"
+        id="AddContact"
+        class="buttons"
+        onclick="addContact()"
+      >
+        Add
+      </button>
+    </br>
+  </br>
+      <span id="addResult"></span>
+    </form>
+  </div> <!-- Container ends here -->
+
+<div id="table-container" class="table-container">
+  <!-- Table to display contacts -->
+  <table id="contactTable">
+    <tr>
+      <th>Name</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th></th>
+      <th>Delete/Edit</th>
+    </tr>
+  </table>
+  
+
+    <script>
+
+      //Veronica here
+      function showHideForms() {
+        var contactForm = document.getElementById("contactForm");
+        var formContainer = document.getElementById("form-container");
+        var table = document.getElementById("contactTable");
+        var tableContainer = document.getElementById("table-container");
+        var searchContainer = document.getElementById("Search");
+
+        // Check if the contact form is currently visible
+        if (contactForm.style.display === "block") {
+            // Hide contact form and form container
+            contactForm.style.display = "none";
+            formContainer.style.display = "none";
+
+            // Show table and search bar
+            table.style.display = "table";
+            tableContainer.style.display = "block";  // Change to 'block' for the container
+            searchContainer.style.display = "flex"; // Show search bar
+        } else {
+            // Show contact form and form container
+            contactForm.style.display = "block";
+            formContainer.style.display = "block";
+
+            // Hide table and search bar
+            table.style.display = "none";
+            tableContainer.style.display = "none";  // Hide the container
+            searchContainer.style.display = "flex"; // Hide search bar
+        }
+      }
+
+      function getCookie(name) {
+        let value = `; ${document.cookie}`;
+        let parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      }
+
+      function setWelcomeMessage() {
+        let firstName = getCookie("firstName");
+        let lastName = getCookie("lastName");
+
+        let welcomeMessage = `Welcome ${
+          firstName ? firstName + " " + lastName : "Guest"
+        }!`;
+        document.getElementById("welcomeMessage").innerText = welcomeMessage;
+      }
+
+      window.onload = function () {
+        setWelcomeMessage();
+        loadContacts();
+      };
+    </script>
+
+    <script>
+      function showContactForm() {
+        var contactForm = document.getElementById("contactForm");
+        contactForm.style.display =
+          contactForm.style.display === "none" ? "block" : "none";
+      }
+
+      function showSearchForm() {
+        var searchForm = document.getElementById("SearchContactForm");
+        searchForm.style.display =
+          searchForm.style.display === "none" ? "block" : "none";
+      }
+
+
+
+
+
+
+function formatPhoneNumber() {
+    var phoneInput = document.getElementById("Phone");
+    var phoneValue = phoneInput.value;
+
+    // Allow letters for U.S. numbers
+    function convertLettersToNumbers(input) {
+        var letterToNumberMap = {
+            A: "2", B: "2", C: "2",
+            D: "3", E: "3", F: "3",
+            G: "4", H: "4", I: "4",
+            J: "5", K: "5", L: "5",
+            M: "6", N: "6", O: "6",
+            P: "7", Q: "7", R: "7", S: "7",
+            T: "8", U: "8", V: "8",
+            W: "9", X: "9", Y: "9", Z: "9"
+        };
+
+        return input.toUpperCase().replace(/[A-Z]/g, function(letter) {
+            return letterToNumberMap[letter] || letter;
+        });
+    }
+
+    // Remove non-alphanumeric characters but keep letters for U.S. numbers
+    phoneValue = phoneValue.replace(/[^a-zA-Z0-9]/g, "");
+
+    // Convert letters to numbers if it's a U.S. number (length is 10 or starts with 1)
+    if (phoneValue.length === 10 || (phoneValue.startsWith("1") && phoneValue.length === 11)) {
+        phoneValue = convertLettersToNumbers(phoneValue);
+    } else if (!phoneValue.startsWith("1")) {
+        // For international numbers, just remove non-numeric characters
+        phoneValue = phoneValue.replace(/\D/g, "");
+    }
+
+    // Limit the number of digits to a maximum of 15 (international standard)
+    if (phoneValue.length > 15) {
+        phoneValue = phoneValue.slice(0, 15); // Truncate to 15 digits
+    }
+
+    var formattedNumber = "";
+
+    // Handle U.S. phone numbers with or without country code
+    if (phoneValue.startsWith("1") && phoneValue.length === 11) {
+        var countryCode = "1";
+        var areaCode = phoneValue.slice(1, 4);  // Extract 3-digit area code
+        var part1 = phoneValue.slice(4, 7);     // First 3 digits of the local number
+        var part2 = phoneValue.slice(7);        // Last 4 digits of the local number
+
+        formattedNumber = `+${countryCode} (${areaCode}) - ${part1} - ${part2}`;
+    } else if (phoneValue.length === 10) {
+        // U.S. number without country code
+        var areaCode = phoneValue.slice(0, 3); // 3-digit area code
+        var part1 = phoneValue.slice(3, 6); // First 3 digits of local number
+        var part2 = phoneValue.slice(6);   // Last 4 digits of local number
+
+        formattedNumber = `(${areaCode}) - ${part1} - ${part2}`;
+    } else if (phoneValue.length > 10) {
+        // International phone number (non-U.S.)
+        var countryCode = "";
+        var areaCode = "";
+        var part1 = "";
+        var part2 = "";
+
+        if (phoneValue.length > 12) {
+            countryCode = phoneValue.slice(0, 3); // Country code (3 digits)
+            areaCode = phoneValue.slice(3, 6);   // 3-digit area code
+            part1 = phoneValue.slice(6, 9);      // First 3 digits of local number
+            part2 = phoneValue.slice(9);         // Remaining local number
+        } else if (phoneValue.length > 11) {
+            countryCode = phoneValue.slice(0, 2); // Country code (2 digits)
+            areaCode = phoneValue.slice(2, 5);   // 3-digit area code
+            part1 = phoneValue.slice(5, 8);      // First 3 digits of local number
+            part2 = phoneValue.slice(8);         // Remaining local number
+        } else {
+            countryCode = phoneValue.slice(0, 1); // Country code (1 digit)
+            areaCode = phoneValue.slice(1, 4);   // 3-digit area code
+            part1 = phoneValue.slice(4, 7);      // First 3 digits of local number
+            part2 = phoneValue.slice(7);         // Remaining local number
+        }
+
+        formattedNumber = `+${countryCode} (${areaCode}) - ${part1} - ${part2}`;
+    } else {
+        // If less than 10 digits, just show as is
+        formattedNumber = phoneValue;
+    }
+
+    // Update the input field with the formatted number
+    phoneInput.value = formattedNumber;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function validateForm() {
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+    var phone = document.getElementById("Phone").value;
+    var email = document.getElementById("Email").value;
+    var errorMsg = document.getElementById("addResult");
+
+    // Simplified email regex pattern
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+
+    // New phone number pattern - allow optional + at start, and 10-15 digits
+    var phonePattern = /^\+?\d{10,15}$/;
+
+    errorMsg.innerHTML = "";
+
+    // Check if first and last name are provided
+    if (firstName === "" || lastName === "") {
+        errorMsg.innerHTML = "First and Last name are required.";
+        return false;
+    }
+
+    // Check if either email or phone is provided
+    if (email === "" && phone === "") {
+        errorMsg.innerHTML = "You must provide either an email or a phone number.";
+        return false;
+    }
+
+    // Validate email if provided
+    var isEmailValid = email === "" || emailPattern.test(email);
+
+    // Remove non-numeric characters from the phone number
+    var numericPhone = phone.replace(/[^0-9+]/g, ""); // Only keep numbers and + sign
+
+    // Validate phone number if provided
+    var isPhoneValid = phone === "" || phonePattern.test(numericPhone);
+
+    // Display appropriate error messages based on validation results
+    if (!isEmailValid && !isPhoneValid) {
+        errorMsg.innerHTML = "Not a valid phone number and email.";
+        return false;
+    } else if (!isEmailValid) {
+        errorMsg.innerHTML = "Not a valid email.";
+        return false;
+    } else if (!isPhoneValid) {
+        errorMsg.innerHTML = "Not a valid phone number.";
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+    <a
+      href="#"
+      id="backToHomepage"
+      class="buttons"
+      aria-label="Log Out"
+      onclick="doLogout(); return false;"
+      <!--
+      Prevent
+      default
+      anchor
+      behavior
+      --
+    >
+      <img src="images/logOut.jpg" alt="Log Out" id="logOut" />
+    </a>
+
+    <script>
+      function doLogout() {
+        // Clear cookies
+        document.cookie =
+          "firstName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.cookie =
+          "lastName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+
+        // Redirect to homepage
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

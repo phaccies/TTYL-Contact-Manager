@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="js/code.js"></script>
+    <title>TTYL! ||Login</title>
+    <link href="css/login.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Log In</h1>
+
+    <div id="loginDiv">
+      <input
+        type="text"
+        id="loginName"
+        class="loginInput"
+        placeholder="Username"
+        autocomplete="username"
+      />
+
+      <input
+        type="password"
+        id="loginPassword"
+        class="loginInput"
+        placeholder="Password"
+        autocomplete="current-password"
+      />
+      <img src="images/hidePassword.png" id="hidePassword" />
+      <button
+        type="button"
+        id="loginButton"
+        class="buttons"
+        onclick="doLogin();"
+      >
+        Sign in
+      </button>
+      <span id="loginResult"></span>
+    </div>
+
+    <p id="password-feedback"></p>
+    <!-- Added password feedback element -->
+
+    <script>
+      let hidePassword = document.getElementById("hidePassword");
+      let loginPassword = document.getElementById("loginPassword");
+
+      hidePassword.onclick = function () {
+        if (loginPassword.type == "password") {
+          // Fixed condition
+          loginPassword.type = "text";
+          hidePassword.src = "images/showPassword.png";
+        } else {
+          loginPassword.type = "password";
+          hidePassword.src = "images/hidePassword.png";
+        }
+      };
+
+      function showPasswordFeedback() {
+        var password = document.getElementById("loginPassword").value;
+        var feedback = validatePassword(password); // Assuming this function exists
+        document.getElementById("password-feedback").innerText = feedback;
+      }
+    </script>
+
+    <p>
+      <a href="index.html" id="backToHomepage" class="buttons">
+        <img src="images/homeicon.png" alt="Go Back" id="homeIcon" />
+      </a>
+    </p>
+  </body>
+</html>

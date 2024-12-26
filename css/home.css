@@ -1,0 +1,151 @@
+/* background-image needs to be RELATIVE to css file (hence ../) and also FORWARD slash. '/' */
+/*
+body {
+
+    background-image: url('../images/texts_background.jpg');
+    
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; 
+    background-size: 80%;
+     
+} */
+
+@keyframes fade-in 
+{
+
+    0%{
+        opacity: 0;
+        transform: translateY(30px) scale(.9);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+    
+}
+
+body
+{
+
+    text-align: center;
+    background: linear-gradient(45deg, #000000, #001d6c, #000000 );
+    background-size: 200% 200%;
+    /*animation: color_fade 8s ease-in-out infinite;
+   /* background-color: rgb(185, 211, 155); */
+    font-family: "Press Start 2P";
+    color: white;
+    animation: fade-in 0.5s, color_fade 7s ease-in-out infinite ;
+
+} 
+/*
+.gradient{
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(45deg, #000000, #032c9e, #028d1d );
+    background-size: 200% 200%;
+    animation: color_fade 8s ease-in-out infinite;
+} */
+
+@keyframes color_fade {
+    0%{
+        background-position: 0 50%;
+    }
+
+    50%{
+        background-position: 100% 50%;
+    }
+
+    100%{
+        background-position: 0 50%;
+    }
+    
+}
+
+
+.speech-bubble {
+    background-size: contain;
+    background-repeat: no-repeat;
+   
+    /* width: 338px; 
+    height: 350px;   */
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    transition: .5s ease;
+ 
+  }
+
+  .speech-bubble:hover
+  {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+  }
+
+  .buttons
+  {
+
+    background-color: rgb(255, 255, 255); /* Initial background color */
+    color: rgb(0, 0, 0); /* Initial text color */
+    font-family: "Press Start 2P";
+    font-size: medium;
+    padding: 15px 40px;
+    position: relative;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for both background and text color */
+    
+  }
+
+  /*Border Itself*/
+  .buttons::after, .buttons::before
+  {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    /*Add blue at beginning + end so colors flow smoother*/
+    background-image: conic-gradient(rgb(0, 4, 255), rgb(93, 0, 255), rgb(0, 4, 255));
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 3px;
+    border-radius: 15px;
+  }
+
+  /*Glowy effect*/
+  .buttons::before
+  {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  /*Working on this animation (Veronica)*/
+  @keyframes glow
+  {
+    0% {
+        filter: blur(0rem);
+    }
+    50% {
+        filter: blur(2rem); /* Peak blur halfway through */
+    }
+    100% {
+        filter: blur(0rem); /* Return to normal */
+    }
+  }
+
+  .buttons:hover
+  {
+    background-color: rgb(0, 0, 0); /* Background color on hover */
+    color: rgb(255, 255, 255); /* Text color on hover */
+  }
+  
+
+
+  
+

@@ -1,0 +1,186 @@
+body {
+  text-align: center;
+  align-items: center;
+  background-image: url("../images/mainbgd.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: 200% 200%;
+  font-family: "Press Start 2P";
+  color: white;
+  animation: fade-in 0.75s;
+  position: relative; /* Ensure the body is a relative parent */
+  min-height: 100vh; /* Set minimum height to ensure the button has a reference for the bottom */
+}
+
+/* Animations */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes glow {
+  0% {
+    filter: blur(1.5rem);
+  }
+  50% {
+    filter: blur(2rem); /* Peak blur halfway through */
+  }
+  100% {
+    filter: blur(1.5rem); /* Return to normal */
+  }
+}
+
+/* Login Div Styles */
+#loginDiv {
+  background: linear-gradient(45deg, #000000, #00076c, #000000);
+  animation: color_fade 5s ease-in-out infinite;
+  padding: 15px 40px;
+  position: relative;
+  border-radius: 15px;
+  font-size: medium;
+  width: 300px; /* Adjust the width as needed */
+  height: auto; /* Adjust height or leave as auto */
+  margin: 0 auto; /* Centers the container */
+}
+
+#loginDiv::after,
+#loginDiv::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: conic-gradient(
+    rgb(0, 4, 255),
+    rgb(93, 0, 255),
+    rgb(0, 4, 255)
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  padding: 3px;
+  border-radius: 15px;
+}
+
+#loginDiv::before {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.input-box {
+  position: relative;
+  width: 250px;
+  margin: 10px auto;
+}
+
+/* Input Styles */
+/* Input Styles */
+.loginInput {
+  width: 100%; /* Set a fixed width for inputs */
+  padding: 10px; /* Add some padding */
+  margin: 10px 0; /* Add vertical spacing */
+  font-size: 16px; /* Adjust font size */
+  font-family: "Press Start 2P", cursive; /* Add this line to use the same font */
+  border: 2px solid #333; /* Border styling */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add some shadow */
+  background-color: white; /* Set background color to white */
+  color: #333; /* Dark text color for readability */
+  display: flex;
+  align-items: center;
+}
+
+.input-box img {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  cursor: pointer;
+}
+
+/* Button Styles */
+.buttons,
+#loginButton {
+  background-color: rgb(255, 255, 255); /* Initial background color */
+  color: rgb(0, 0, 0); /* Initial text color */
+  font-family: "Press Start 2P";
+  font-size: medium;
+  padding: 15px 40px;
+  position: relative;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for both background and text color */
+}
+
+.buttons:hover,
+#loginButton:hover {
+  background-color: rgb(0, 0, 0); /* Background color on hover */
+  color: rgb(255, 255, 255); /* Text color on hover */
+}
+
+/* Button Glow Effect */
+.buttons::after,
+.buttons::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: conic-gradient(
+    rgb(0, 4, 255),
+    rgb(93, 0, 255),
+    rgb(0, 4, 255)
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  padding: 3px;
+  border-radius: 15px;
+}
+
+.buttons::before {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Back to Homepage Styles */
+#backToHomepage {
+  position: absolute; /* Change to fixed to keep it at the bottom */
+  display: inline-block; /* Allows padding and margin */
+  text-decoration: none; /* Remove underline from link */
+  top: 0px; /* Position it from the bottom */
+  right: 20px; /* Position it on the left */
+  margin: 0; /* Remove any potential margins */
+}
+
+#homeIcon {
+  width: 50px; /* Set the width of the icon */
+  height: auto; /* Maintain aspect ratio */
+  transition: transform 0.3s ease; /* Smooth scaling on hover */
+}
+
+#backToHomepage:hover #homeIcon {
+  transform: scale(1.1); /* Slightly scale the icon on hover */
+  filter: invert(100%); /*Make the home icon white for visibility*/
+}
+
+/* Color Fade Animation */
+@keyframes color_fade {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

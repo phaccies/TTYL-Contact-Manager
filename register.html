@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/register.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script type="text/javascript" src="js/code.js"></script>
+    <title>TTYL! || Register</title>
+    <style>
+      /* Tooltip Styles */
+      /* Tooltip Styles */
+      #passReqs {
+        display: none; /* Hidden by default */
+        position: absolute;
+        font-size: medium;
+        background-color: rgba(
+          36,
+          35,
+          35,
+          0
+        ); /* Dark background with some transparency */
+        border: 1px solid rgb(0, 4, 255); /* Matches the background */
+        color: white; /* Text color for readability */
+        padding: 10px;
+        z-index: 100;
+        width: 300px; /* Adjust width as necessary */
+        top: 0px; /* Position above the input field, adjust as necessary */
+        right: 0px; /* Aligns the tooltip to the left of the input */
+        margin-bottom: 5px; /* Space between the input and tooltip */
+      }
+
+      #passwordContainer {
+        position: relative; /* Position relative to allow absolute positioning of the tooltip */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Register</h1>
+
+    <div id="registerDiv">
+      <input
+        type="text"
+        id="firstName"
+        placeholder="First Name"
+        autocomplete="given-name"
+      />
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Last Name"
+        autocomplete="family-name"
+      />
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        autocomplete="username"
+      />
+
+      <div id="passwordContainer">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="new-password"
+          onmouseover="showTooltip()"
+          onmouseout="hideTooltip()"
+        />
+        <div id="passReqs">
+          <p>Minimum requirements:</p>
+          <ul>
+            <span id="length-icon" class="xmark"></span>
+            <span>8 Characters</span>
+            </br>
+            <span id="letter-icon" class="xmark"></span>
+            <span>1 Letter</span>
+            </br>
+            <span id="number-icon" class="xmark"></span>
+            <span>1 Number</span>
+            </br>
+            <span id="special-icon" class="xmark"></span>
+            <span>1 [@$!%*?&]</span>
+          </ul>
+        </div>
+      </div>
+      <br />
+      <img src="images/hidePassword.png" id="hidePassword" />
+      <br /><br />
+      <button
+        type="button"
+        id="registerButton"
+        class="zbutton"
+        onclick="doSignUp();"
+      >
+        Sign up
+      </button>
+      <br /><br />
+      <span id="registerResult"></span>
+      <br /><br />
+    </div>
+    <!-- End of Register Container -->
+
+    <p>
+      <a href="index.html" id="backToHomepage" class="buttons">
+        <img src="images/homeicon.png" alt="Go Back" id="homeIcon" />
+      </a>
+    </p>
+
+    <script>
+      let hidePassword = document.getElementById("hidePassword");
+      let loginPassword = document.getElementById("password");
+
+      hidePassword.onclick = function () {
+        if (loginPassword.type == "password") {
+          loginPassword.type = "text";
+          hidePassword.src = "images/showPassword.png";
+        } else {
+          loginPassword.type = "password";
+          hidePassword.src = "images/hidePassword.png";
+        }
+      };
+
+      function showTooltip() {
+        document.getElementById("passReqs").style.display = "block"; // Show the tooltip
+      }
+
+      function hideTooltip() {
+        document.getElementById("passReqs").style.display = "none"; // Hide the tooltip
+      }
+    </script>
+  </body>
+</html>
